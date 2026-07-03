@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/build.yml
+      - Containerfile
+  workflow_dispatch:
+jobs:
+  build:
+    name: Build and push ghcr.io/${{ github.repository }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      REGISTRY: ghcr.io/${{ github.repository_owner }}
+      NAME: ghcr.io/${{ github.repository }}
+    steps:
+    - name: Maximise build space
+      uses: ublue-os/remove-unwanted-software@v9
+    - name: Log in to ghcr.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        registry: ${{ env.REGISTRY }}
+    - uses: actions/checkout@v7
+    - name: Build ghcr.io/${{ github.repository }}:latest
+      run: buildah build --pull=newer --no-hosts --arch=amd64 --tag=${{ env.NAME }}:latest --layers=true --label=org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }} .
+    - name: Run chunkah
+      run: |
+        podman run --rm --mount=type=image,src="${{ env.NAME }}",target=/chunkah -e CHUNKAH_CONFIG_STR="$(podman inspect ${{ env.NAME }})" quay.io/coreos/chunkah:latest build --verbose --compressed --max-layers 128 --prune /sysroot/ --label ostree.commit- --label ostree.final-diffid- --tag ${{ env.NAME }}:latest | podman load
+    - name: Tag Git commit
+      run: podman tag ${{ env.NAME }}:latest ${{ env.NAME }}:$(git rev-parse HEAD)
+    - name: Push ${{ github.sha }}
+      run: podman push ${{ env.NAME }}:$(git rev-parse HEAD)
+    - name: Push latest
+      run: podman push ${{ env.NAME }}:latest
