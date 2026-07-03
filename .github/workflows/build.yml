@@ -1,4 +1,6 @@
 on:
+  schedule:
+    - cron: "0 0 * * */2" # midnight every 2 days
   push:
     branches:
       - main
