@@ -9,4 +9,10 @@ RUN --mount=type=cache,destination=/var/cache \
     gnutls-devel \
     ncurses-devel \
     libtree-sitter-devel \
-    systemd-devel
+    systemd-devel \
+    libxml2-devel \
+    libacl-devel \
+    dbus-devel \
+    mpv
+
+RUN bootc container lint
