@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
+mkdir /nix
+
 dnf -y install \
     libgccjit-devel \
     gnutls-devel \
@@ -10,7 +12,8 @@ dnf -y install \
     libxml2-devel \
     libacl-devel \
     dbus-devel \
-    mpv
+    mpv \
+    nix
 
 # dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
 # dnf5 config-manager setopt 'terra*.enabled=0'
