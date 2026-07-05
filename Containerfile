@@ -1,7 +1,7 @@
 FROM scratch AS ctx
 COPY build_files /
 
-FROM ghcr.io/ublue-os/aurora:stable
+FROM ghcr.io/ublue-os/bazzite:stable-44
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,destination=/var/cache \

@@ -12,7 +12,7 @@ dnf -y install \
     dbus-devel \
     mpv
 
-dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
-dnf5 config-manager setopt 'terra*.enabled=0'
+# dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
+# dnf5 config-manager setopt 'terra*.enabled=0'
 
 dnf -y --setopt=terra.enabled=1 install ghostty
