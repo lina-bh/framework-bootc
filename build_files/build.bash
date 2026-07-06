@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-mkdir /nix
+mkdir /var/nix
+ln -s /var/nix /nix
 
 dnf -y install \
     libgccjit-devel \
