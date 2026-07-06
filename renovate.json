@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/ublue-os/bazzite"
+      ],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/ublue-os/bazzite"
+      ],
+      "matchUpdateTypes": ["digest"],
+      "automerge": true
+    },
+    {
+      "matchDatasources": [
+        "github-actions",
+        "docker"
+      ],
+      "pinDigests": true
+    },
+  ],
+  "prHourlyLimit": 0,
+  "automergeType": "branch",
+  "ignoreTests": true
+}
