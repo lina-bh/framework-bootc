@@ -16,9 +16,11 @@ time podman run \
        --env=CHUNKAH_CONFIG_STR \
        quay.io/coreos/chunkah:latest build \
        --verbose \
-       --max-layers=256 \
+       --max-layers=128 \
        --prune=/sysroot/ \
        --label=ostree.commit- \
        --label=ostree.final-diffid- \
        --tag="${NAME}:latest" \
-       --output=oci:/rechunked/out
+       --output=oci:/rechunked/out \
+       --compressed \
+       --compression-level=9
