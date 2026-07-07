@@ -83,7 +83,6 @@ dnf -y remove \
     fedora-bookmarks \
     slirp4netns \
     cage \
-    ipset \
     signon-kwallet-extension \
     libbluray-utils \
     cifs-utils-info \
