@@ -1,10 +1,16 @@
 .POSIX:
+.SUFFIXES:
 
-NAME :=
-EXTRA_BUILD_ARGS :=
+NAME := ghcr.io/lina-bh/framework-bootc
+EXTRA_BUILD_ARGS := --label=org.opencontainers.image.source=https://github.com/lina-bh/framework-bootc
+LAYERS := true
+
+all:
 
 build:
-	buildah build --pull=newer --no-hosts --arch=amd64 --layers=true --tag=$(NAME):latest $(EXTRA_BUILD_ARGS) .
+	buildah build --pull=newer --no-hosts --arch=amd64 --layers=$(LAYERS) --tag=$(NAME):latest $(EXTRA_BUILD_ARGS) .
 
 rechunk:
-	/bin/sh -c 'exec env CHUNKAH_CONFIG_STR="$$(podman inspect $(NAME))" podman run --rm --mount=type=image,src=$(NAME),target=/chunkah --env=CHUNKAH_CONFIG_STR quay.io/coreos/chunkah:latest build --verbose --max-layers=128 --prune=/sysroot/ --label=ostree.commit- --label=ostree.final-diffid- --tag=$(NAME):latest | podman load'
+	/bin/sh ./rechunk.sh
+
+.PHONY: build rechunk all

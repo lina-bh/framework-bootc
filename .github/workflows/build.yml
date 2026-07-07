@@ -19,8 +19,8 @@ jobs:
       REGISTRY: ghcr.io/${{ github.repository_owner }}
       NAME: ghcr.io/${{ github.repository }}
     steps:
-    - name: Maximise build space
-      uses: ublue-os/remove-unwanted-software@v9
+    # - name: Maximise build space
+    #   uses: ublue-os/remove-unwanted-software@v9
     - name: Log in to ghcr.io
       uses: redhat-actions/podman-login@v1
       with:
@@ -29,12 +29,10 @@ jobs:
         registry: ${{ env.REGISTRY }}
     - uses: actions/checkout@v7
     - name: Build ghcr.io/${{ github.repository }}:latest
-      run: make build NAME=${{ env.NAME }} EXTRA_BUILD_ARGS="--label=org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}"
+      run: make build NAME=${{ env.NAME }} EXTRA_BUILD_ARGS="--label=org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" LAYERS=false
     - name: Run chunkah
       run: make rechunk NAME=${{ env.NAME }}
-    - name: Tag Git commit
-      run: podman tag ${{ env.NAME }}:latest ${{ env.NAME }}:$(git rev-parse HEAD)
     - name: Push Git commit
-      run: podman push ${{ env.NAME }}:$(git rev-parse HEAD)
+      run: skopeo copy "oci:${PWD}/rechunked/out" "docker://"${{ env.NAME }}":$(git rev-parse HEAD)"
     - name: Push latest
-      run: podman push ${{ env.NAME }}:latest
+      run: skopeo copy "docker://"${{ env.NAME }}:{$(git rev-parse HEAD),latest}
