@@ -1,16 +1,17 @@
 #!/bin/sh
-set -eu
+set -eux
 : "${NAME:=ghcr.io/lina-bh/framework-bootc}"
 rechunked="${PWD}/rechunked"
-set -x
 rm -rf "$rechunked"
 mkdir -p "$rechunked"
+set +x
 CHUNKAH_CONFIG_STR="$(podman inspect "${NAME}")"
+set -x
 export CHUNKAH_CONFIG_STR
 time podman run \
        --rm \
-       --mount=type=image,src="${NAME}:latest",target=/chunkah \
-       --mount=type=bind,src="$rechunked",dest=/rechunked \
+       --mount=type=image,source="${NAME}:latest",destination=/chunkah \
+       --mount=type=bind,source="$rechunked",destination=/rechunked \
        --security-opt=label=disable \
        --env=CHUNKAH_CONFIG_STR \
        quay.io/coreos/chunkah:latest build \
