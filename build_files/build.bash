@@ -5,15 +5,12 @@ mkdir /var/nix
 ln -s /var/nix /nix
 
 dnf -y mark user \
-    libjpeg-turbo-devel \
-    libtiff-devel \
-    libwebp-devel \
     ncurses-term \
     terra-gamescope
 
-dnf -y install \
+dnf -y --setopt=keepcache=True install \
     mpv \
-    nix \
+    nix nix-daemon \
     autoconf \
     dbus-devel \
     gnutls-devel \
@@ -27,139 +24,18 @@ dnf -y install \
     sqlite-devel \
     systemd-devel \
     texinfo \
-    gmp-devel
+    gmp-devel \
+    'perl(sigtrap)' \
+    python3-libdnf5
 
-dnf -y --setopt=terra.enabled=1 install ghostty
+dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty
 
-dnf -y remove \
-    plasma-workspace-wallpapers \
-    makemkv \
-    mariadb-{server,backup,gssapi-server,cracklib-password-check} \
-    orca \
-    fish \
-    tesseract-devel \
-    glow \
-    exiv2 \
-    python3-{pip,perf,boto3,regex,langtable,httpx,html2text,pyaudio,urllib3+socks,rapidfuzz,sentry-sdk,psutil,anyio,httpcore,pexpect,enchant,pyxdg,pyatspi,dasbus,pygdbmi,pysocks,louis,icoextract,file-magic} \
-    brltty \
-    amdsmi \
-    ls-iommu \
-    plasma-{desktop-doc,discover-libs,vault} \
-    plasma-nm-{openconnect,openvpn,vpnc} \
-    tesseract-langpack-{nld,pol,tur,rus,ces,jpn_vert,ita,jpn,chi_sim,chi_tra,spa,por,chi_sim_vert,deu,ell,fra,chi_tra_vert} \
-    webapp-manager \
-    vim-enhanced \
-    kde-connect \
-    kpmcore \
-    sos \
-    virtualbox-guest-additions \
-    duf \
-    krdc \
-    krfb \
-    ocfs2-tools \
-    libwnck3 \
-    snapper \
-    input-remapper \
-    vkBasalt \
-    audiocd-kio \
-    btop \
-    kfind \
-    opensc{,-libs} \
-    jfsutils \
-    rom-properties-{kf6,utils} \
-    qemu-guest-agent \
-    cockpit-{storaged,networkmanager,podman,selinux,files,system} \
-    realmd \
-    gnupg2-scdaemon \
-    catdoc \
-    openxr \
-    f2fs-tools \
-    btrfs-assistant \
-    krdp \
-    kio-gdrive \
-    mobile-broadband-provider-info \
-    open-vm-tools{,-desktop} \
-    ladspa-caps-plugins \
-    hfsplus-tools \
-    hfsutils \
-    sssd-kcm \
-    pinfo \
-    mtr \
-    spice-{vdagent,webdavd} \
-    xwiimote-ng \
-    pam_yubico \
-    splix \
-    switcheroo-control \
-    memstrack \
-    sudo-python-plugin \
-    iptstate \
-    NetworkManager-{bluetooth,openconnect,openvpn,vpnc,wwan,ppp} \
-    libcap-ng-python3 \
-    pam_afs_session \
-    fedora-bookmarks \
-    slirp4netns \
-    cage \
-    signon-kwallet-extension \
-    libbluray-utils \
-    cifs-utils-info \
-    pamu2fcfg \
-    pipewire-module-filter-chain-sofa \
-    wlr-randr \
-    xdriinfo \
-    fedora-chromium-config{,-kde} \
-    akonadi-server{,-mysql} \
-    lutris \
-    capstone \
-    gocryptfs \
-    samba-client \
-    qt{5,6}-qttranslations \
-    qt6-qt{connectivity,webview,base-mysql} \
-    tcl8 \
-    libtraceevent \
-    libvncserver \
-    libkcddb{,-doc} \
-    nilfs-utils \
-    kjournald \
-    kaccounts-providers \
-    libslirp \
-    corosynclib \
-    ScopeBuddy \
-    libfakekey \
-    icoutils \
-    initscripts-service \
-    compsize \
-    {nvidia-gpu,atheros,mt7xxx,brcmfmac,tiwilink,cirrus-audio,iwlwifi-dvm,libertas,nxpwireless,qcom-wwan,iwlegacy}-firmware \
-    intel-{opencl,mediasdk,vpl-gpu-rt,vaapi-driver,lpmd,gmmlib} \
-    intel-{gpu,vsc,audio}-firmware \
-    libva-intel-media-driver \
-    thermald \
-    openrgb-udev-rules \
-    libratbag-ratbagd \
-    b43-{fwcutter,openfwwf} \
-    oversteer-udev \
-    fwupd-plugin-modem-manager \
-    fcitx5-{data,mozc,chinese-addons,configtool,unikey,chewing,libthai,sayura,qt,m17n,hangul,gtk} \
-    ibus \
-    ibus-{typing-booster,anthy,libpinyin,anthy-python,setup,chewing,hangul,gtk4} \
-    kcm-fcitx5 \
-    libpinyin{,-data} \
-    libchewing \
-    cups \
-    hplip{,-libs} \
-    uld \
-    sane-backends \
-    sane-backends-drivers-{scanners,cameras} \
-    ipp-usb \
-    plasma-print-manager{,-libs} \
-    dymo-cups-drivers \
-    gutenprint{,-cups} \
-    libsane-hpaio \
-    usbip \
-    c2esp \
-    printer-driver-brlaser \
-    ptouch-driver \
-    bluez-cups \
-    cups-{ipptool,filters-driverless,browsed} \
-    paps \
-    braille-printer-app \
-    mpage
+if [[ ! -z "${MINIMISE-}" ]]; then
+  minimised="$(python3 /ctx/minimise_remove.py < /ctx/packages_removed)"
+  mapfile -t pkgset <<< "$minimised"
+else
+  full="$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
+  eval "pkgset=( ${full} )"
+fi
+
+dnf -y remove "${pkgset[@]}"
