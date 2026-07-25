@@ -19,7 +19,7 @@ jobs:
     # - name: Maximise build space
     #   uses: ublue-os/remove-unwanted-software@v9
     - name: Log in to ghcr.io
-      uses: redhat-actions/podman-login@v1
+      uses: redhat-actions/podman-login@v2
       with:
         username: ${{ github.actor }}
         password: ${{ github.token }}
