@@ -1,9 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
 
-mkdir /var/nix
-ln -s /var/nix /nix
-
 dnf -y mark user \
     ncurses-term \
     terra-gamescope
@@ -27,6 +24,10 @@ dnf -y --setopt=keepcache=True install \
     gmp-devel \
     'perl(sigtrap)' \
     python3-libdnf5
+
+# nix
+mv /nix /var/nix
+mkdir /nix
 
 dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty
 
