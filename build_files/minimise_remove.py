@@ -34,7 +34,7 @@ class DnfOps:
         query = libdnf5.rpm.PackageQuery(self.base)
         query.filter_installed()
         query.resolve_pkg_spec(name, libdnf5.base.ResolveSpecSettings(), True)
-        ret = set(map(lambda p: p.get_name(), query))
+        ret = {p.get_name() for p in query}
         if not ret:
             print(f"{name} matches nothing", file=sys.stderr)
         return ret
@@ -52,12 +52,10 @@ class DnfOps:
                 "goal resolution failed\n"
                 + "\n".join(transaction.get_resolve_logs_as_strings())
             )
-        return set(
-            map(
-                lambda p: p.get_package().get_name(),
-                transaction.get_transaction_packages(),
-            )
-        )
+        return {
+            p.get_package().get_name()
+            for p in transaction.get_transaction_packages()
+        }
 
 
 def parse_pkg_list(f: TextIO) -> set[str]:
@@ -81,15 +79,6 @@ def main():
     entire = set().union(*map(ops.installed_for, specs))
 
     target = ops.removed_by(entire)
-    if extras := target - entire:
-        print(
-            f"warning: the current list already removes {len(extras)} packages"
-            " beyond those listed:",
-            *sorted(extras),
-            sep="\n  ",
-            file=sys.stderr,
-        )
-
     keep = list(entire)
     nentire = len(keep)
     for i, spec in enumerate(entire, 1):

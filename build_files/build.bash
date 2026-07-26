@@ -5,14 +5,22 @@ dnf -y mark user \
     ncurses-term \
     terra-gamescope
 
+dnf -y --setopt=keepcache=True install python3-libdnf5
+
 if [[ ! -z "${MINIMISE-}" ]]; then
-  minimised="$(python3 /ctx/minimise_remove.py < /ctx/packages_removed)"
-  mapfile -t pkgset <<< "$minimised"
+  tmpfile="$(mktemp)"
+  python3 /ctx/minimise_remove.py < /ctx/packages_removed > "$tmpfile"
+  diff -u /ctx/packages_removed "$tmpfile" || :
+  mapfile -t pkgset < "$tmpfile"
+  rm "$tmpfile"
 else
   full="$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
+  set +x
   eval "pkgset=( ${full} )"
+  # shellcheck disable=SC2016
+  echo 'pkgset=( ${full} )'
+  set -x
 fi
-
 dnf -y remove "${pkgset[@]}"
 
 dnf -y --setopt=keepcache=True install \
@@ -40,8 +48,7 @@ dnf -y --setopt=keepcache=True install \
     sqlite-devel \
     systemd-devel \
     texinfo \
-    'perl(sigtrap)' \
-    python3-libdnf5
+    'perl(sigtrap)'
 
 # nix
 mv /nix /var/nix
