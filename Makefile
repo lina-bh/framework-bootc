@@ -8,7 +8,7 @@ LAYERS := true
 all:
 
 build:
-	buildah build --pull=newer --no-hosts --arch=amd64 --layers=$(LAYERS) --tag=$(NAME):latest $(EXTRA_BUILD_ARGS) .
+	buildah build --pull=newer --no-hosts --arch=amd64 --layers=$(LAYERS) --tag=$(NAME):latest --env=MINIMISE $(EXTRA_BUILD_ARGS) .
 
 rechunk:
 	/bin/sh ./rechunk.sh
