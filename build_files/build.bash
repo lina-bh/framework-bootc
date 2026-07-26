@@ -5,6 +5,16 @@ dnf -y mark user \
     ncurses-term \
     terra-gamescope
 
+if [[ ! -z "${MINIMISE-}" ]]; then
+  minimised="$(python3 /ctx/minimise_remove.py < /ctx/packages_removed)"
+  mapfile -t pkgset <<< "$minimised"
+else
+  full="$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
+  eval "pkgset=( ${full} )"
+fi
+
+dnf -y remove "${pkgset[@]}"
+
 dnf -y --setopt=keepcache=True install \
     mpv \
     nix nix-daemon \
@@ -38,13 +48,3 @@ mv /nix /var/nix
 mkdir /nix
 
 dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty
-
-if [[ ! -z "${MINIMISE-}" ]]; then
-  minimised="$(python3 /ctx/minimise_remove.py < /ctx/packages_removed)"
-  mapfile -t pkgset <<< "$minimised"
-else
-  full="$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
-  eval "pkgset=( ${full} )"
-fi
-
-dnf -y remove "${pkgset[@]}"

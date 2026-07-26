@@ -147,7 +147,6 @@ python3-file-magic
 python3-h11
 python3-html2text
 python3-olefile
-python3-packaging
 python3-pip
 python3-psutil
 python3-ptyprocess
