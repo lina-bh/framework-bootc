@@ -3,7 +3,13 @@ set -euxo pipefail
 
 dnf -y mark user \
     ncurses-term \
-    terra-gamescope
+    terra-gamescope \
+    ImageMagick \
+    libjpeg-turbo-devel \
+    libpng-devel \
+    libwebp-devel \
+    perl-sigtrap \
+    setroubleshoot-server
 
 dnf -y --setopt=keepcache=True install python3-libdnf5
 
@@ -14,8 +20,8 @@ if [[ ! -z "${MINIMISE-}" ]]; then
   mapfile -t pkgset < "$tmpfile"
   rm "$tmpfile"
 else
-  full="$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
   set +x
+  full="$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
   eval "pkgset=( ${full} )"
   # shellcheck disable=SC2016
   echo 'pkgset=( ${full} )'
@@ -48,7 +54,9 @@ dnf -y --setopt=keepcache=True install \
     sqlite-devel \
     systemd-devel \
     texinfo \
-    'perl(sigtrap)'
+    info \
+    'perl(sigtrap)' \
+    zsh
 
 # nix
 mv /nix /var/nix

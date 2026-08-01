@@ -139,7 +139,6 @@ poppler-utils
 portaudio
 python3-anyio
 python3-botocore
-python3-certifi
 python3-charset-normalizer
 python3-dasbus
 python3-enchant
@@ -156,7 +155,6 @@ python3-pysocks
 python3-pyxdg
 python3-rapidfuzz
 python3-regex
-python3-rpm
 qcom-wwan-firmware
 qemu-guest-agent
 qpdf-libs
