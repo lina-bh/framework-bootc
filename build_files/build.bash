@@ -18,3 +18,5 @@ dnf -y \
 # nix
 mv /nix /var/nix
 mkdir /nix
+
+rm -r /var/lib/openvpn
