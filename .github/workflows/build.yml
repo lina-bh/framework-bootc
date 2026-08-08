@@ -1,35 +1,52 @@
 on:
-  schedule:
-    - cron: "0 0 * * */2" # midnight every 2 days
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+env:
+  REGISTRY: ghcr.io/${{ github.repository_owner }}
+  NAME: ghcr.io/${{ github.repository }}
 jobs:
   build:
-    name: Build and push ghcr.io/${{ github.repository }}
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    env:
-      REGISTRY: ghcr.io/${{ github.repository_owner }}
-      NAME: ghcr.io/${{ github.repository }}
     steps:
     # - name: Maximise build space
     #   uses: ublue-os/remove-unwanted-software@v9
+    - name: Clone
+      uses: actions/checkout@v7
+    - name: Build Containerfile
+      run: make build NAME=${{ env.NAME }} EXTRA_BUILD_ARGS="--label=org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" LAYERS=false
+    - name: Rechunk
+      if: github.event_name != 'pull_request'
+      run: make rechunk NAME=${{ env.NAME }}
+    - name: Log in to ghcr.io
+      if: github.event_name != 'pull_request'
+      uses: redhat-actions/podman-login@50c2d9a331bb67c8fdab99b86455fad05e2e3252 # v2
+      with:
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        registry: ${{ env.REGISTRY }}
+    - name: Push commit
+      if: github.event_name != 'pull_request'
+      run: skopeo copy "oci:${PWD}/rechunked/out" "docker://"${{ env.NAME }}":$(git rev-parse HEAD)"
+  push_latest:
+    name: Push latest
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
     - name: Log in to ghcr.io
       uses: redhat-actions/podman-login@50c2d9a331bb67c8fdab99b86455fad05e2e3252 # v2
       with:
         username: ${{ github.actor }}
         password: ${{ github.token }}
         registry: ${{ env.REGISTRY }}
-    - uses: actions/checkout@v7
-    - name: Build ghcr.io/${{ github.repository }}:latest
-      run: make build NAME=${{ env.NAME }} EXTRA_BUILD_ARGS="--label=org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" LAYERS=false
-    - name: Run chunkah
-      run: make rechunk NAME=${{ env.NAME }}
-    - name: Push Git commit
-      run: skopeo copy "oci:${PWD}/rechunked/out" "docker://"${{ env.NAME }}":$(git rev-parse HEAD)"
     - name: Push latest
-      run: skopeo copy "docker://"${{ env.NAME }}:{$(git rev-parse HEAD),latest}
+      run: skopeo copy "docker://"${{ env.NAME }}:{${{ github.sha }},latest}
