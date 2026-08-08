@@ -9,7 +9,7 @@ dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty
 
 mapfile -t removed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
 
-dnf -y mark dependency "${removed[@]}"
+dnf -y mark --skip-unavailable dependency "${removed[@]}"
 dnf -y mark user "${installed[@]}" ghostty
 dnf -y \
     --setopt=protected_packages=dnf5,glob:/etc/dnf/protected.d/*.conf,"$(IFS=,; echo "${installed[*]}")" \
@@ -19,4 +19,4 @@ dnf -y \
 mv /nix /var/nix
 mkdir /nix
 
-rm -r /var/lib/openvpn
+rm -r /var/lib/openvpn || :
