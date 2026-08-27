@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
+dnf -y --setopt=keepcache=True swap wget2-wget wget1-wget
+
 mapfile -t installed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_installed)"
 
 dnf -y --setopt=keepcache=True install "${installed[@]}"
