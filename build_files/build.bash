@@ -7,7 +7,7 @@ mapfile -t installed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_installe
 
 dnf -y --setopt=keepcache=True install "${installed[@]}"
 
-dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty
+dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty man-pages-posix
 
 mapfile -t removed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
 
