@@ -67,6 +67,7 @@ c2esp
 cage
 cairomm1.16
 capstone
+cardwire-gui
 catatonit
 catdoc
 cdparanoia-libs
@@ -268,6 +269,7 @@ inih
 inih-cpp
 initscripts-service
 input-remapper
+inputattach-cec-units
 intel-audio-firmware
 intel-gmmlib
 intel-gpu-firmware
@@ -406,8 +408,10 @@ kmod-hid-fanatecff
 kmod-hid-tmff2
 kmod-kvmfr
 kmod-libs
+kmod-nct6687d
 kmod-new-lg4ff
 kmod-openrazer
+kmod-sc0710
 kmod-system76-driver
 kmod-system76-io
 kmod-t150-driver
@@ -747,6 +751,7 @@ libzip
 libzstd
 lilv-libs
 linux-atm-libs
+linux-cec
 linux-firmware
 linux-firmware-whence
 linuxconsoletools
@@ -795,6 +800,7 @@ mtr
 mysql-selinux
 nano
 nano-default-editor
+nct6687d
 ncurses-base
 ncurses-libs
 neon
@@ -802,6 +808,11 @@ net-snmp-libs
 nettle
 new-lg4ff
 new-lg4ff-akmod-modules
+nfs-client-utils
+nfs-common-utils
+nfs-utils
+nfsv3-client-utils
+nfsv4-client-utils
 ngtcp2
 ngtcp2-crypto-gnutls
 ngtcp2-crypto-ossl
@@ -838,16 +849,20 @@ orc
 orca
 ostree-libs
 oversteer-udev
-oxygen-icon-theme
 p11-kit
 p11-kit-server
 p11-kit-trust
 pam-libs
 pam_afs_session
+pam-u2f
+pam_passwdqc
 pam_yubico
+pamu2fcfg
 pangomm2.48
 paps
 parted
+passwdqc
+passwdqc-utils
 pcaudiolib
 pciutils-libs
 pcre2
@@ -880,7 +895,6 @@ plasma-keyboard
 plasma-nm-openconnect
 plasma-nm-openvpn
 plasma-nm-vpnc
-plasma-oxygen
 plasma-print-manager
 plasma-print-manager-libs
 plasma-vault
@@ -1043,6 +1057,7 @@ sane-backends
 sane-backends-drivers-cameras
 sane-backends-drivers-scanners
 sane-backends-libs
+sc0710
 sdbus-cpp
 sdl2-compat
 serd
@@ -1136,12 +1151,17 @@ uriparser
 urw-base35-bookman-fonts
 urw-base35-c059-fonts
 urw-base35-d050000l-fonts
+urw-base35-fonts
 urw-base35-fonts-common
 urw-base35-gothic-fonts
+urw-base35-nimbus-mono-ps-fonts
+urw-base35-nimbus-roman-fonts
+urw-base35-nimbus-sans-fonts
 urw-base35-p052-fonts
 urw-base35-standard-symbols-ps-fonts
 urw-base35-z003-fonts
 usb_modeswitch-data
+usbip
 usermode
 userspace-rcu
 v4l2loopback
@@ -1157,7 +1177,9 @@ volume_key-libs
 vpnc
 vpnc-script
 wavpack
+webapp-manager
 wget2-libs
+wget2-wget
 whois-nls
 wireguard-tools
 wireplumber-libs
@@ -1174,6 +1196,7 @@ xdg-dbus-proxy
 xdotool
 xdpyinfo
 xdriinfo
+xhost
 xevd-libs
 xeve-libs
 xmessage
@@ -1182,6 +1205,7 @@ xmlsec1
 xmlsec1-openssl
 xmodmap
 xone-kmod-common
+xorg-x11-xauth
 xorg-x11-xinit
 xprop
 xrandr

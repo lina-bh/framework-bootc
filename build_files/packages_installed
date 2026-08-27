@@ -29,7 +29,9 @@ python3-libdnf5
 setroubleshoot-plugins
 setroubleshoot-server
 sqlite-devel
+sysfsutils
 systemd-devel
 terra-gamescope
 texinfo
+wget1-wget
 zsh
