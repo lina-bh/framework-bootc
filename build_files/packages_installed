@@ -4,6 +4,7 @@ autoconf
 cairo-devel
 dbus-devel
 giflib-devel
+glibc-langpack-en
 gmp-devel
 gnutls-devel
 gtk3-devel
