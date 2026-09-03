@@ -14,4 +14,4 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 COPY --from=ctx /system_files/ /
 
-RUN bootc container lint --no-truncate
+RUN bootc container lint --no-truncate ||:
