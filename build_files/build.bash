@@ -8,6 +8,8 @@ mapfile -t installed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_installe
 dnf -y --no-best --setopt=keepcache=True install "${installed[@]}"
 
 dnf -y --setopt=terra.enabled=1 --setopt=keepcache=True install ghostty man-pages-posix
+dnf -y --setopt=copr:copr.fedorainfracloud.org:ublue-os:packages.enabled=1 \
+    install ublue-os-libvirt-workarounds
 
 mapfile -t unmarked <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_unmarked)"
 

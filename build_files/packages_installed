@@ -17,6 +17,11 @@ libpng-devel
 librsvg2-devel
 libselinux-devel
 libtree-sitter-devel
+libvirt-client-qemu
+libvirt-daemon-config-network
+libvirt-daemon-config-nwfilter
+libvirt-daemon-driver-qemu
+libvirt-daemon-driver-storage-disk
 libwebp-devel
 libxml2-devel
 m17n-lib-devel
@@ -27,6 +32,7 @@ nix
 nix-daemon
 perl-sigtrap
 python3-libdnf5
+qemu-kvm
 setroubleshoot-plugins
 setroubleshoot-server
 sqlite-devel
