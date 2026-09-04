@@ -21,6 +21,4 @@ time podman run \
        --label=ostree.commit- \
        --label=ostree.final-diffid- \
        --tag="${NAME}:latest" \
-       --output=oci:/rechunked/out \
-       --compressed \
-       --compression-level=9
+       --output=oci:/rechunked/out
