@@ -8,6 +8,9 @@ on:
     paths-ignore:
       - renovate.json
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 env:
   REGISTRY: ghcr.io/${{ github.repository_owner }}
   NAME: ghcr.io/${{ github.repository }}
