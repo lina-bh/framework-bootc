@@ -40,7 +40,7 @@ jobs:
         registry: ${{ env.REGISTRY }}
     - name: Push commit
       if: github.event_name != 'pull_request'
-      run: skopeo copy "oci:${PWD}/rechunked/out" "docker://"${{ env.NAME }}":$(git rev-parse HEAD)"
+      run: skopeo copy --dest-compress-format=zstd:chunked "oci:${PWD}/rechunked/out" "docker://"${{ env.NAME }}":$(git rev-parse HEAD)"
   push_latest:
     name: Push latest
     if: github.event_name != 'pull_request'
