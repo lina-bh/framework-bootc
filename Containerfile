@@ -18,6 +18,12 @@ RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --network=none \
     bash /ctx/remove.bash
 
+RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
+    --mount=type=tmpfs,destination=/var/log \
+    --mount=type=cache,destination=/var/tmp \
+    --network=none \
+    bash /ctx/initramfs.bash
+
 COPY --from=ctx /system_files/ /
 
 RUN --mount=type=tmpfs,target=/run --network=none bootc container lint --no-truncate ||:
