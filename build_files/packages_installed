@@ -9,6 +9,8 @@ gmp-devel
 gnutls-devel
 gtk3-devel
 info
+libXaw-devel
+libXpm-devel
 libacl-devel
 libgccjit-devel
 libjpeg-turbo-devel
@@ -16,6 +18,7 @@ libotf-devel
 libpng-devel
 librsvg2-devel
 libselinux-devel
+libtiff-devel
 libtree-sitter-devel
 libvirt-client-qemu
 libvirt-daemon-config-network
