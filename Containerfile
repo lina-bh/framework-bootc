@@ -2,7 +2,7 @@ FROM scratch AS ctx
 COPY build_files /
 COPY system_files /system_files
 
-FROM ghcr.io/ublue-os/bazzite:stable-44@sha256:f8b9651ff43a07fd00299b5b11d885bad4de57232033828b231d1d6dad3c676c
+FROM ghcr.io/ublue-os/bazzite:stable-44@sha256:64f5a75ea05a2c3bdc56e6d143096eb3600d561ccf02612c6e2b087de64b9941
 
 RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --mount=type=cache,destination=/var/cache \
