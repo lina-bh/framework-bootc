@@ -1,17 +1,32 @@
 #!/bin/bash
 set -euxo pipefail
 
-set +x
-mapfile -t installed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_installed)"
-mapfile -t unmarked <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_unmarked)"
-mapfile -t removed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_removed)"
-set -x
+dnf -y remove \
+    firefox \
+    kdebugsettings \
+    kcharselect \
+    kfind \
+    kunifiedpush \
+    ModemManager \
+    nvidia-gpu-firmware \
+    atheros-firmware \
+    mt7xxx-firmware \
+    intel-gpu-firmware \
+    brcmfmac-firmware \
+    intel-vsc-firmware \
+    tiwilink-firmware \
+    intel-audio-firmware \
+    cirrus-audio-firmware \
+    iwlwifi-dvm-firmware \
+    nxpwireless-firmware \
+    libertas-firmware \
+    intel-npu-firmware \
+    qcom-wwan-firmware \
+    iwlegacy-firmware \
+    plasma-workspace-wallpapers \
+    ibus \
+    cups-client \
+    mariadb \
+    ;
 
-dnf -y mark --skip-unavailable weak "${unmarked[@]}"
-dnf -y \
-    --setopt=protected_packages=dnf5,glob:/etc/dnf/protected.d/*.conf,"$(IFS=,; echo "${installed[*]}")" \
-    autoremove
-
-dnf -y \
-    --setopt=protected_packages=dnf5,glob:/etc/dnf/protected.d/*.conf,"$(IFS=,; echo "${installed[*]}")" \
-    remove "${removed[@]}"
+dnf repoquery --userinstalled --queryformat '%{INSTALLSIZE} %{NAME}\n' | sort -n | tail -n 20

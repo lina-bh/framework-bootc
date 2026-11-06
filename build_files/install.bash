@@ -2,22 +2,26 @@
 set -euxo pipefail
 
 dnf5 -y config-manager setopt keepcache=True
-dnf5 -y config-manager setopt allow_vendor_change=False
+
+curl -fL https://pkgs.tailscale.com/stable/fedora/tailscale.repo -o /usr/share/dnf5/repos.d/tailscale.repo
+sed -i 's/^enabled=1/enabled=0/' /usr/share/dnf5/repos.d/tailscale.repo
+dnf5 -y --setopt=tailscale-stable.enabled=1 install tailscale
+
+# shellcheck disable=SC2016
+dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
+dnf5 -y config-manager setopt 'terra*'.enabled=0
+
+dnf -y --no-best install \
+    make \
+    emacs-pgtk \
+  ;
 
 dnf -y swap wget2-wget wget1-wget
+dnf -y swap glibc-all-langpacks glibc-langpack-en
 
-set +x
-mapfile -t installed <<< "$(grep -Ev '^[[:space:]]*(#|$)' /ctx/packages_installed)"
-set -x
-
-dnf -y --no-best install "${installed[@]}"
-dnf -y mark user "${installed[@]}"
-dnf -y --setopt=terra.enabled=1 install ghostty man-pages-posix
-dnf -y --setopt=copr:copr.fedorainfracloud.org:ublue-os:packages.enabled=1 \
-    install ublue-os-libvirt-workarounds
+dnf -y --setopt=terra.enabled=1 install \
+    ghostty \
+    man-pages-posix \
+    scx-scheds-nightly
 
 dnf5 -y config-manager setopt keepcache=False
-
-# nix
-mv /nix /var/nix
-mkdir /nix

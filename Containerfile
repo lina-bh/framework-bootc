@@ -2,7 +2,9 @@ FROM scratch AS ctx
 COPY build_files /
 COPY system_files /system_files
 
-FROM ghcr.io/ublue-os/bazzite:stable-44@sha256:ee82a885dbb77cd4604a5ffa8278a0eef0bc84d16850045c7b9d847729da9949
+FROM ghcr.io/ublue-os/brew:latest@sha256:974ce5e4d6d5fceb6151910957515a42c0eefced4ea386fdfadb0fbad84499a5 AS brew
+
+FROM quay.io/fedora-ostree-desktops/kinoite:45
 
 RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --mount=type=cache,destination=/var/cache \
@@ -23,6 +25,13 @@ RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --mount=type=cache,destination=/var/tmp \
     --network=none \
     bash /ctx/initramfs.bash
+
+COPY --from=brew /system_files /
+RUN --mount=type=cache,destination=/var/cache \
+    --mount=type=tmpfs,destination=/var/log \
+    systemctl preset brew-setup.service && \
+    systemctl preset brew-update.timer && \
+    systemctl preset brew-upgrade.timer
 
 COPY --from=ctx /system_files/ /
 
