@@ -1,39 +1,35 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "automergeStrategy": "rebase",
+  "automergeType": "pr",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "helpers:pinGitHubActionDigests",
+    "docker:pinDigests"
+  ],
+  "ignoreTests": false,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update digest-pinned container image references in shell scripts",
+      "managerFilePatterns": ["**/*.sh"],
+      "matchStrings": [
+        "(?<depName>[a-z0-9-]+(?:\\.[a-z0-9-]+)+(?::[0-9]+)?/[a-z0-9._/-]+):(?<currentValue>[A-Za-z0-9_][A-Za-z0-9_.-]*)@(?<currentDigest>sha256:[a-f0-9]{64})"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
+    }
   ],
   "packageRules": [
     {
+      "enabled": false,
       "matchDatasources": [
         "docker"
       ],
       "matchPackageNames": [
-        "ghcr.io/ublue-os/bazzite"
-      ],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchPackageNames": [
-        "ghcr.io/ublue-os/bazzite"
-      ],
-      "matchUpdateTypes": ["digest"],
-      "automerge": true
-    },
-    {
-      "matchDatasources": [
-        "github-actions",
-        "docker"
-      ],
-      "pinDigests": true
+        "quay.io/fedora-ostree-desktops/kinoite"
+      ]
     }
   ],
-  "prHourlyLimit": 0,
-  "automergeType": "pr",
-  "automergeStrategy": "rebase",
-  "ignoreTests": false
+  "prHourlyLimit": 0
 }
