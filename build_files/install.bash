@@ -13,7 +13,7 @@ dnf5 -y config-manager setopt 'terra*'.enabled=0
 
 dnf -y --no-best install \
     make \
-    emacs-pgtk \
+    emacs-lucid \
   ;
 
 dnf -y swap wget2-wget wget1-wget
