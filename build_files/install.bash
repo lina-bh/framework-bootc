@@ -11,7 +11,7 @@ dnf5 -y --setopt=tailscale-stable.enabled=1 install tailscale
 dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release terra-gpg-keys
 dnf5 -y config-manager setopt 'terra*'.enabled=0
 
-dnf -y --no-best install \
+dnf -y --no-best --setopt=exclude_from_weak=emacs-pgtk,'libtree-sitter-*' install \
     make \
     emacs-lucid \
   ;
