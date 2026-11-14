@@ -4,7 +4,7 @@ COPY system_files /system_files
 
 FROM ghcr.io/ublue-os/brew:latest@sha256:974ce5e4d6d5fceb6151910957515a42c0eefced4ea386fdfadb0fbad84499a5 AS brew
 
-FROM quay.io/fedora/fedora-kinoite:45
+FROM quay.io/fedora/fedora-kinoite:46@sha256:1c84a09411861a8a8f51743e5afbdabed232d46c0644ae6337f51f2013104bd2
 
 RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --mount=type=cache,destination=/var/cache \
