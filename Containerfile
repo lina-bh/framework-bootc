@@ -4,7 +4,7 @@ COPY system_files /system_files
 
 FROM ghcr.io/ublue-os/brew:latest@sha256:974ce5e4d6d5fceb6151910957515a42c0eefced4ea386fdfadb0fbad84499a5 AS brew
 
-FROM quay.io/fedora-ostree-desktops/kinoite:45
+FROM quay.io/fedora/fedora-kinoite:45
 
 RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --mount=type=cache,destination=/var/cache \
