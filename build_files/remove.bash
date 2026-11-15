@@ -1,6 +1,21 @@
 #!/bin/bash
 set -euxo pipefail
 
+dnf -y remove \
+    atheros-firmware \
+    brcmfmac-firmware \
+    cirrus-audio-firmware \
+    intel-audio-firmware \
+    intel-gpu-firmware \
+    mt7xxx-firmware \
+    nvidia-gpu-firmware \
+    nxpwireless-firmware \
+    orca \
+    plasma-discover-rpm-ostree \
+    plasma-welcome \
+    qcom-wwan-firmware \
+    signon-kwallet-extension \
+    tiwilink-firmware
 dnf -y mark dependency \
     NetworkManager-adsl \
     NetworkManager-bluetooth \
@@ -10,7 +25,6 @@ dnf -y mark dependency \
     akonadi-server-mysql \
     at-spi2-atk \
     at-spi2-core \
-    atheros-firmware \
     audiocd-kio \
     aurorae \
     b43-fwcutter \
@@ -19,11 +33,9 @@ dnf -y mark dependency \
     bash-completion \
     bind-utils \
     bluez-cups \
-    brcmfmac-firmware \
     brltty \
     c2esp \
     cifs-utils \
-    cirrus-audio-firmware \
     compsize \
     cups \
     cups-browsed \
@@ -60,8 +72,6 @@ dnf -y mark dependency \
     ibus-libpinyin \
     ibus-m17n \
     ibus-typing-booster \
-    intel-audio-firmware \
-    intel-gpu-firmware \
     intel-lpmd \
     intel-vsc-firmware \
     iptables-nft \
@@ -93,40 +103,31 @@ dnf -y mark dependency \
     microcode_ctl \
     mobile-broadband-provider-info \
     mpage \
-    mt7xxx-firmware \
     mtr \
     nfs-utils \
     nss-mdns \
-    nvidia-gpu-firmware \
-    nxpwireless-firmware \
     open-vm-tools-desktop \
     opensc \
     openssh-server \
-    orca \
     pam_afs_session \
     paps \
     passwdqc \
     pinfo \
     plasma-desktop-doc \
     plasma-discover-notifier \
-    plasma-discover-rpm-ostree \
     plasma-keyboard \
     plasma-nm-openconnect \
     plasma-nm-openvpn \
     plasma-print-manager \
     plasma-vault \
-    plasma-welcome \
-    plasma-welcome-fedora \
     plasma-workspace-wallpapers \
     printer-driver-brlaser \
     ptouch-driver \
-    qcom-wwan-firmware \
     qemu-guest-agent \
     realmd \
     rsync \
     samba-client \
     samba-usershares \
-    signon-kwallet-extension \
     skopeo \
     sos \
     spice-vdagent \
@@ -137,7 +138,6 @@ dnf -y mark dependency \
     system-config-printer-udev \
     systemd-container \
     thermald \
-    tiwilink-firmware \
     tree \
     unzip \
     virtualbox-guest-additions \
