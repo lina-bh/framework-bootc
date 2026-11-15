@@ -21,12 +21,11 @@ RUN --mount=type=cache,destination=/etc/apk/cache \
 
 FROM quay.io/fedora/fedora-kinoite:45
 
-COPY --from=mark /mark /tmp/mark
-RUN --mount=type=cache,destination=/var/cache \
+RUN --mount=type=bind,from=mark,source=/,destination=/mark \
+    --mount=type=cache,destination=/var/cache \
     --mount=type=cache,destination=/var/log \
     dnf -y mark dependency $(dnf repoquery --userinstalled) && \
-    dnf -y mark user $(cat /tmp/mark) && \
-    rm /tmp/mark
+    dnf -y mark user $(cat /mark/mark)
 
 RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
     --mount=type=cache,destination=/var/cache \
