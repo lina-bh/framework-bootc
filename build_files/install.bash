@@ -1,6 +1,12 @@
 #!/bin/bash
 set -euxo pipefail
 
+dnf5 -y mark user \
+     gdouros-symbola-fonts \
+     google-noto-emoji-fonts \
+     openssl \
+     python3-packaging \
+
 dnf5 -y config-manager setopt keepcache=True
 
 curl -fL https://pkgs.tailscale.com/stable/fedora/tailscale.repo -o /usr/share/dnf5/repos.d/tailscale.repo
