@@ -23,7 +23,7 @@ FROM quay.io/fedora/fedora-kinoite:45
 
 RUN --mount=type=bind,from=mark,source=/,destination=/mark \
     --mount=type=cache,destination=/var/cache \
-    --mount=type=cache,destination=/var/log \
+    --mount=type=tmpfs,destination=/var/log \
     dnf -y mark dependency $(dnf repoquery --userinstalled) && \
     dnf -y mark user $(cat /mark/mark)
 
