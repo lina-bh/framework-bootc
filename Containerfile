@@ -50,9 +50,7 @@ RUN --mount=type=bind,from=ctx,source=/,destination=/ctx \
 COPY --from=brew /system_files /
 RUN --mount=type=cache,destination=/var/cache \
     --mount=type=tmpfs,destination=/var/log \
-    systemctl preset brew-setup.service && \
-    systemctl preset brew-update.timer && \
-    systemctl preset brew-upgrade.timer
+    systemctl preset brew-setup.service
 
 COPY --from=ctx /system_files/ /
 
