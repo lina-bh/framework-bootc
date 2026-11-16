@@ -28,4 +28,9 @@ dnf -y install \
     man-pages-posix \
     scx-scheds-nightly
 
+dnf -y copr enable ublue-os/packages
+dnf -y --setopt=install_weak_deps=False \
+    install uupd
+systemctl enable uupd.timer
+
 dnf5 -y config-manager setopt keepcache=False
