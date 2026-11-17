@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-dnf -y remove \
+dnf -y --setopt=protected_packages=ark,dolphin,ffmpegthumbs,kcm-plasmalogin,kde-connect,kde-settings-plasmalogin,kdeplasma-addons,kdialog,konsole,kwin,kwrite,plasma-desktop,plasma-login-manager,plasma-nm,plasma-setup,plasma-workspace,spectacle,dolphin-plugins,kde-settings-plasma,tuned-ppd,xorg-x11-server-Xwayland remove \
     atheros-firmware \
     brcmfmac-firmware \
     cirrus-audio-firmware \
@@ -15,8 +15,59 @@ dnf -y remove \
     plasma-welcome \
     qcom-wwan-firmware \
     signon-kwallet-extension \
-    tiwilink-firmware
-dnf -y mark dependency \
+    tiwilink-firmware \
+    ibus \
+    ibus-gtk3 \
+    ghostscript \
+    intel-mediasdk \
+    qt6-qttranslations \
+    capstone \
+    exiv2 \
+    intel-vpl-gpu-rt \
+    adwaita-mono-fonts \
+    fwupd-plugin-modem-manager \
+    systemd-networkd \
+    pipewire-plugin-libcamera \
+    criu \
+    criu-libs \
+    gawk-all-langpacks \
+    audiocd-kio \
+    adwaita-sans-fonts \
+    lttng-ust \
+    poppler-utils \
+    catdoc \
+    f2fs-tools \
+    hunspell-en \
+    hunspell-en-AU \
+    hunspell-en-CA \
+    nilfs-utils \
+    udftools \
+    kaccounts-providers \
+    python3-html2text \
+    enchant2 \
+    plasma-discover-kns \
+    python3-rpm \
+    libnet \
+    qt6-qtspeech-flite \
+    qt6-qtspeech-speechd \
+    switcheroo-control \
+    memstrack \
+    python3-urllib3+socks \
+    libcap-ng-python3 \
+    urw-base35-d050000l-fonts \
+    libqrtr-glib \
+    xsettingsd \
+    libcanberra-gtk3 \
+    kf6-kidletime-x11 \
+    urw-base35-standard-symbols-ps-fonts \
+    kf6-sonnet-hunspell \
+    ntfs-3g-system-compression \
+    p11-kit-server \
+    lsb_release \
+    initscripts-service \
+    libproxy-bin
+
+dnf -y mark dependency --skip-unavailable \
     NetworkManager-adsl \
     NetworkManager-bluetooth \
     NetworkManager-ppp \
@@ -25,7 +76,6 @@ dnf -y mark dependency \
     akonadi-server-mysql \
     at-spi2-atk \
     at-spi2-core \
-    audiocd-kio \
     aurorae \
     b43-fwcutter \
     b43-openfwwf \
@@ -143,6 +193,5 @@ dnf -y mark dependency \
     virtualbox-guest-additions \
     vlc-plugin-gstreamer \
     whois \
-    wireguard-tools \
-    zip
+    wireguard-tools
 dnf -y autoremove
