@@ -35,7 +35,10 @@ dnf -y --setopt=exclude_from_weak=emacs-pgtk,'libtree-sitter-*',distrobox instal
     ghostty \
     man-pages-posix \
     scx-scheds-nightly \
-    uupd
+    uupd \
+    steam \
+    mangohud \
+    gamescope
 systemctl enable uupd.timer
 
 dnf -y swap wget2-wget wget1-wget
