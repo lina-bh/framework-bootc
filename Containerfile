@@ -19,7 +19,7 @@ RUN --mount=type=cache,destination=/etc/apk/cache \
     do yq '(.packages + .packages-x86_64)[]' "$file" >> /mark; \
     done && echo 'plasma-welcome-fedora' >> /mark
 
-FROM quay.io/fedora/fedora-kinoite:45
+FROM quay.io/fedora/fedora-kinoite:46@sha256:7a2af4f7a657651f4e91edadc876a8b4a9e62035c8f88b70501729eaabc7efab
 
 RUN --mount=type=bind,from=mark,source=/,destination=/mark \
     --mount=type=cache,destination=/var/cache \
