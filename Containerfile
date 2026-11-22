@@ -2,7 +2,7 @@ FROM scratch AS ctx
 COPY build_files /
 COPY system_files /system_files
 
-FROM ghcr.io/ublue-os/brew:latest@sha256:974ce5e4d6d5fceb6151910957515a42c0eefced4ea386fdfadb0fbad84499a5 AS brew
+FROM ghcr.io/ublue-os/brew:latest@sha256:9c51c948d48de69b0fadfb3d97dc1a7eaa91a4e5a2af7b2b6626fdd8fca362b1 AS brew
 
 FROM docker.io/library/alpine:edge AS mark
 
